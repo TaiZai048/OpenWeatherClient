@@ -1,7 +1,7 @@
 package cn.aetherial.config;
 
 import cn.aetherial.cache.WeatherCache;
-import cn.aetherial.cache.WeatherCacheFactory;
+import cn.aetherial.factory.WeatherCacheFactory;
 import cn.aetherial.properties.OpenWeatherCacheProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

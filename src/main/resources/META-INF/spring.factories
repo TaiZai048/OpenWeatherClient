@@ -1,3 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 cn.aetherial.config.OpenWeatherAutoConfiguration,\
-cn.aetherial.config.OpenWeatherCacheAutoConfiguration
+cn.aetherial.config.OpenWeatherCacheAutoConfiguration,\
+cn.aetherial.factory.WeatherCacheFactory,\
+cn.aetherial.factory.WeatherDataStrategyFactory

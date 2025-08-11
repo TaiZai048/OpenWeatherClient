@@ -1,5 +1,9 @@
-package cn.aetherial.cache;
+package cn.aetherial.factory;
 
+import cn.aetherial.cache.LocalWeatherCache;
+import cn.aetherial.cache.NoOpWeatherCache;
+import cn.aetherial.cache.RedisWeatherCache;
+import cn.aetherial.cache.WeatherCache;
 import cn.aetherial.properties.OpenWeatherCacheProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
