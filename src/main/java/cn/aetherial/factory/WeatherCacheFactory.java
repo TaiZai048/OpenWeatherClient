@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
-@Component
 public class WeatherCacheFactory {
     
     private static final Logger log = LoggerFactory.getLogger(WeatherCacheFactory.class);
@@ -50,22 +48,38 @@ public class WeatherCacheFactory {
     }
     
     private WeatherCache createRedisCache() {
-        RedisTemplate<String, Object> redisTemplate;
+        RedisTemplate<String, Object> redisTemplate = null;
+        
         try {
-            // 优先尝试获取名为openWeatherRedisTemplate的Bean
             redisTemplate = applicationContext.getBean("openWeatherRedisTemplate", RedisTemplate.class);
             log.info("Using openWeatherRedisTemplate bean for Redis cache");
+            return new RedisWeatherCache(redisTemplate, cacheProperties);
         } catch (Exception e) {
-            try {
-                // 如果不存在，尝试获取任何类型的RedisTemplate Bean
-                redisTemplate = applicationContext.getBean(RedisTemplate.class);
-                log.info("Using default RedisTemplate bean for Redis cache");
-            } catch (Exception ex) {
-                log.error("No RedisTemplate bean found in application context", ex);
-                throw new IllegalStateException("No RedisTemplate bean available for Redis cache", ex);
-            }
+            log.debug("No bean named 'openWeatherRedisTemplate' found, trying other strategies");
         }
-        return new RedisWeatherCache(redisTemplate, cacheProperties);
+        
+        try {
+            redisTemplate = applicationContext.getBean("redisTemplate", RedisTemplate.class);
+            log.info("Using redisTemplate bean for Redis cache");
+            return new RedisWeatherCache(redisTemplate, cacheProperties);
+        } catch (Exception e) {
+            log.debug("No bean named 'redisTemplate' found, trying other strategies");
+        }
+        
+        try {
+            String[] beanNames = applicationContext.getBeanNamesForType(RedisTemplate.class);
+            if (beanNames.length > 0) {
+                redisTemplate = applicationContext.getBean(beanNames[0], RedisTemplate.class);
+                log.info("Using RedisTemplate bean '{}' for Redis cache", beanNames[0]);
+                return new RedisWeatherCache(redisTemplate, cacheProperties);
+            }
+        } catch (Exception e) {
+            log.debug("Error getting RedisTemplate beans", e);
+        }
+        
+        // 如果所有策略都失败，抛出异常
+        log.error("No RedisTemplate bean found in application context");
+        throw new IllegalStateException("No RedisTemplate bean available for Redis cache");
     }
     
     private WeatherCache createLocalCache() {
