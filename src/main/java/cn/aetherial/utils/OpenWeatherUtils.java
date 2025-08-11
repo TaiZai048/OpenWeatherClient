@@ -9,9 +9,7 @@ import cn.aetherial.entity.WeatherDetails;
 import cn.aetherial.service.OpenWeatherService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
-@Component
 public class OpenWeatherUtils implements ApplicationContextAware {
 
     private static OpenWeatherService openWeatherService;

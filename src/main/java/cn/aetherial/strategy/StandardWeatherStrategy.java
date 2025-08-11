@@ -2,10 +2,8 @@ package cn.aetherial.strategy;
 
 import cn.aetherial.entity.WeatherStandard;
 import cn.aetherial.utils.WeatherParserUtils;
-import org.springframework.stereotype.Component;
 import java.util.Map;
 
-@Component
 public class StandardWeatherStrategy implements WeatherDataStrategy<WeatherStandard> {
     
     @Override

@@ -3,11 +3,9 @@ package cn.aetherial.strategy;
 import cn.aetherial.config.WeatherDetailsConfig;
 import cn.aetherial.entity.*;
 import cn.aetherial.utils.WeatherParserUtils;
-import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-@Component
 public class DetailedWeatherStrategy implements WeatherDataStrategy<WeatherDetails> {
     
     private WeatherDetailsConfig config;

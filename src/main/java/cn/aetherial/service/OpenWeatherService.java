@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -32,7 +31,6 @@ import java.util.Map;
 
 import static cn.aetherial.constant.WeatherConstants.Api.*;
 
-@Service
 public class OpenWeatherService {
 
     private static final Logger log = LoggerFactory.getLogger(OpenWeatherService.class);
