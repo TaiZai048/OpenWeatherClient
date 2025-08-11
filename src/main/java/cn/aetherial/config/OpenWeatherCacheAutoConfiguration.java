@@ -1,12 +1,13 @@
 package cn.aetherial.config;
 
 import cn.aetherial.cache.WeatherCache;
-import cn.aetherial.cache.WeatherCacheFactory;
+import cn.aetherial.factory.WeatherCacheFactory;
 import cn.aetherial.properties.OpenWeatherCacheProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -36,6 +37,12 @@ public class OpenWeatherCacheAutoConfiguration {
         return template;
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public WeatherCacheFactory weatherCacheFactory(ApplicationContext applicationContext, OpenWeatherCacheProperties cacheProperties) {
+        return new WeatherCacheFactory(applicationContext, cacheProperties);
+    }
+    
     @Bean
     @ConditionalOnMissingBean
     public WeatherCache weatherCache(WeatherCacheFactory cacheFactory) {

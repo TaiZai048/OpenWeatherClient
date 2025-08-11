@@ -72,6 +72,7 @@ spring:
     # password: your_redis_password  # 如果需要密码
     # database: 0                    # Redis 数据库索引
 ```
+
 ```yaml
 # Redis 配置 SpringBoot3
 spring:
@@ -361,11 +362,26 @@ public class ErrorHandlingExample {
 
 注意：如果使用 `auto` 模式的缓存方式，需要确保项目中同时存在 Redis 和 Caffeine 的依赖，否则会出现报错
 
-### Redis 缓存版本兼容性
+### Redis 缓存兼容性
 
-本库基于 Spring Boot 2.4.3 开发。如果您使用的是 Spring Boot 3.x，有以下几种方式解决兼容性问题：
+本库基于 Spring Boot 2.4.3 开发，但已经进行了优化，可以更灵活地适应不同的 Redis 配置。
 
-#### 方式一：创建新的 RedisTemplate Bean
+#### 自动适配 RedisTemplate
+
+从版本 0.1.1 开始，本库会自动适配项目中的 RedisTemplate Bean：
+
+1. 首先尝试查找名为 `openWeatherRedisTemplate` 的 Bean
+2. 如果找不到，则使用项目中任何可用的 RedisTemplate Bean
+
+这意味着在大多数情况下，您不需要额外的配置，库会自动使用您项目中已有的 RedisTemplate。
+
+#### 方式一：使用默认 RedisTemplate
+
+如果您的项目已经配置了 Spring Data Redis，无需任何额外配置，本库会自动使用默认的 RedisTemplate。
+
+#### 方式二：创建专用的 RedisTemplate Bean（可选）
+
+如果您希望为本库配置专用的 RedisTemplate，可以创建一个名为 `openWeatherRedisTemplate` 的 Bean：
 
 ```java
 @Configuration
@@ -390,9 +406,9 @@ public class OpenWeatherRedisConfig {
 }
 ```
 
-#### 方式二：为现有的 RedisTemplate 添加别名
+#### 方式三：为现有的 RedisTemplate 添加别名（可选）
 
-如果您已经有了自己的 RedisTemplate Bean，可以使用 `@Bean` 注解的 name 属性为其添加别名：
+如果您已经有了自己的 RedisTemplate Bean，也可以为其添加 `openWeatherRedisTemplate` 别名：
 
 ```java
 @Configuration
@@ -400,25 +416,7 @@ public class OpenWeatherRedisConfig {
 
     @Bean(name = "openWeatherRedisTemplate")
     public RedisTemplate<String, Object> existingRedisTemplate(@Qualifier("yourExistingRedisTemplate") RedisTemplate<String, Object> existingTemplate) {
-        // 直接返回现有的 RedisTemplate
         return existingTemplate;
-    }
-}
-```
-
-#### 方式三：使用 @Primary 注解
-
-如果您的现有 RedisTemplate 是主要的 Bean，可以将其标记为 `@Primary` 并添加别名：
-
-```java
-@Configuration
-public class RedisConfig {
-
-    @Primary
-    @Bean({"redisTemplate", "openWeatherRedisTemplate"})
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
-        // 您现有的 RedisTemplate 配置
-        // ...
     }
 }
 ```

@@ -3,12 +3,9 @@ package cn.aetherial.strategy;
 import cn.aetherial.entity.Weather;
 import cn.aetherial.entity.WeatherSimple;
 import cn.aetherial.utils.WeatherParserUtils;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Map;
 
-@Component
 public class SimpleWeatherStrategy implements WeatherDataStrategy<WeatherSimple> {
     
     @Override
