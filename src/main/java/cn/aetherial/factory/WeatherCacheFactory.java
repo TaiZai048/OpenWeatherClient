@@ -50,7 +50,21 @@ public class WeatherCacheFactory {
     }
     
     private WeatherCache createRedisCache() {
-        RedisTemplate<String, Object> redisTemplate = applicationContext.getBean("openWeatherRedisTemplate", RedisTemplate.class);
+        RedisTemplate<String, Object> redisTemplate;
+        try {
+            // 优先尝试获取名为openWeatherRedisTemplate的Bean
+            redisTemplate = applicationContext.getBean("openWeatherRedisTemplate", RedisTemplate.class);
+            log.info("Using openWeatherRedisTemplate bean for Redis cache");
+        } catch (Exception e) {
+            try {
+                // 如果不存在，尝试获取任何类型的RedisTemplate Bean
+                redisTemplate = applicationContext.getBean(RedisTemplate.class);
+                log.info("Using default RedisTemplate bean for Redis cache");
+            } catch (Exception ex) {
+                log.error("No RedisTemplate bean found in application context", ex);
+                throw new IllegalStateException("No RedisTemplate bean available for Redis cache", ex);
+            }
+        }
         return new RedisWeatherCache(redisTemplate, cacheProperties);
     }
     
