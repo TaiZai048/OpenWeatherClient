@@ -1,2 +1,2 @@
-cn.aetherial.config.OpenWeatherAutoConfiguration
-cn.aetherial.config.OpenWeatherCacheAutoConfiguration
+cn.aetherial.openweather.config.OpenWeatherAutoConfiguration
+cn.aetherial.openweather.config.OpenWeatherCacheAutoConfiguration
