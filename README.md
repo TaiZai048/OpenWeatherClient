@@ -23,7 +23,7 @@
 <dependency>
     <groupId>cn.aetherial</groupId>
     <artifactId>openweather-client</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.2</version>
 </dependency>
 ```
 
@@ -89,10 +89,10 @@ spring:
 ### 方式一：依赖注入
 
 ```java
-import cn.aetherial.entity.WeatherDetails;
-import cn.aetherial.entity.WeatherSimple;
-import cn.aetherial.service.OpenWeatherService;
-import cn.aetherial.config.WeatherDetailsConfig;
+import cn.aetherial.openweather.entity.WeatherDetails;
+import cn.aetherial.openweather.entity.WeatherSimple;
+import cn.aetherial.openweather.service.OpenWeatherService;
+import cn.aetherial.openweather.config.WeatherDetailsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -134,10 +134,10 @@ public class MyWeatherService {
 ### 方式二：静态工具类（推荐）
 
 ```java
-import cn.aetherial.entity.WeatherDetails;
-import cn.aetherial.entity.WeatherSimple;
-import cn.aetherial.utils.OpenWeatherUtils;
-import cn.aetherial.config.WeatherDetailsConfig;
+import cn.aetherial.openweather.entity.WeatherDetails;
+import cn.aetherial.openweather.entity.WeatherSimple;
+import cn.aetherial.openweather.utils.OpenWeatherUtils;
+import cn.aetherial.openweather.config.WeatherDetailsConfig;
 
 public class WeatherExample {
 
@@ -195,9 +195,9 @@ public class WeatherExample {
 异常处理示例：
 
 ```java
-import cn.aetherial.entity.WeatherDetails;
-import cn.aetherial.exception.OpenWeatherException;
-import cn.aetherial.utils.OpenWeatherUtils;
+import cn.aetherial.openweather.entity.WeatherDetails;
+import cn.aetherial.openweather.exception.OpenWeatherException;
+import cn.aetherial.openweather.utils.OpenWeatherUtils;
 
 public class ErrorHandlingExample {
 
