@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.aetherial</groupId>
     <artifactId>openweather-client</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <name>OpenWeather Client</name>
     <description>Java 客户端库，用于访问 OpenWeatherMap API</description>
     <packaging>jar</packaging>

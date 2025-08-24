@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import cn.aetherial.openweather.exception.OpenWeatherException;
+import cn.aetherial.openweather.constant.WeatherConstants;
 
 @ConfigurationProperties(prefix = "open-weather-config")
 public class OpenWeatherProperties implements InitializingBean {
@@ -13,6 +14,7 @@ public class OpenWeatherProperties implements InitializingBean {
     private String lang = "zh_cn";
     private int connectionTimeout = 5000;
     private int readTimeout = 5000;
+    private String apiDomain = WeatherConstants.Api.DEFAULT_DOMAIN;
 
     public String getApiKey() {
         return apiKey;
@@ -52,6 +54,14 @@ public class OpenWeatherProperties implements InitializingBean {
     
     public void setReadTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
+    }
+
+    public String getApiDomain() {
+        return apiDomain;
+    }
+    
+    public void setApiDomain(String apiDomain) {
+        this.apiDomain = apiDomain;
     }
 
     @Override

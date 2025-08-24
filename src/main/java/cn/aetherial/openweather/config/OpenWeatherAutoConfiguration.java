@@ -14,6 +14,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+import java.time.Duration;
 
 @Configuration
 @EnableConfigurationProperties(OpenWeatherProperties.class)
@@ -60,13 +62,22 @@ public class OpenWeatherAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder, OpenWeatherProperties properties) {
+        return restTemplateBuilder
+                .setConnectTimeout(Duration.ofMillis(properties.getConnectionTimeout()))
+                .setReadTimeout(Duration.ofMillis(properties.getReadTimeout()))
+                .build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public OpenWeatherService openWeatherService(
-            RestTemplateBuilder restTemplateBuilder,
+            RestTemplate restTemplate,
             OpenWeatherProperties properties,
             WeatherDataStrategyFactory strategyFactory,
             WeatherCache weatherCache,
             ObjectMapper objectMapper) {
-        return new OpenWeatherService(restTemplateBuilder, properties, strategyFactory, weatherCache, objectMapper);
+        return new OpenWeatherService(restTemplate, properties, strategyFactory, weatherCache, objectMapper);
     }
 
     @Bean

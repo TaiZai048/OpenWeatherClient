@@ -38,6 +38,7 @@ open-weather-config:
   lang: zh_cn # 语言 默认 zh_cn
   connection-timeout: 5000 # 连接超时（毫秒）
   read-timeout: 5000 # 读取超时（毫秒）
+  api-domain: "https://api.openweathermap.org" # API域名前缀（可选，默认：https://api.openweathermap.org）
 
   # 缓存配置
   cache:
@@ -60,6 +61,46 @@ open-weather-config:
     # Redis 键前缀（可选，默认：openweather:）
     key-prefix: "openweather:"
 ```
+
+### 代理配置
+
+如果您需要通过代理服务器访问 OpenWeatherMap API，可以配置 API 域名前缀：
+
+```yaml
+open-weather-config:
+  api-domain: "https://your-proxy-server.com"  # 配置代理服务器域名
+```
+
+```properties
+# 或在 application.properties 中配置
+open-weather-config.api-domain=https://your-proxy-server.com
+```
+
+代理服务器需要支持以下 API 路径：
+- `/data/3.0/onecall` - 天气数据API
+- `/geo/1.0/direct` - 地理编码API
+
+### 自定义RestTemplate
+
+本库支持自定义 RestTemplate 配置。如果您的项目中已经定义了 RestTemplate Bean，库会优先使用您的配置：
+
+```java
+@Configuration
+public class MyConfiguration {
+    
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplateBuilder()
+            .setConnectTimeout(Duration.ofMillis(10000))
+            .setReadTimeout(Duration.ofMillis(15000))
+            .interceptors(new MyCustomInterceptor())  // 添加自定义拦截器
+            .errorHandler(new MyErrorHandler())       // 自定义错误处理
+            .build();
+    }
+}
+```
+
+如果您的项目中没有定义 RestTemplate，库会自动创建一个默认的 RestTemplate，使用配置文件中的超时设置。
 
 如果使用 Redis 缓存，还需要配置 Redis 连接信息：
 

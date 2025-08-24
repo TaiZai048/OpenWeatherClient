@@ -2,6 +2,7 @@ package cn.aetherial.openweather.service;
 
 import cn.aetherial.openweather.cache.WeatherCache;
 import cn.aetherial.openweather.config.WeatherDetailsConfig;
+import cn.aetherial.openweather.constant.WeatherConstants;
 import cn.aetherial.openweather.constant.WeatherConstants.Validation;
 import cn.aetherial.openweather.entity.CountryInfo;
 import cn.aetherial.openweather.entity.WeatherDetails;
@@ -43,22 +44,20 @@ public class OpenWeatherService {
     private final Map<String, Object> keyLocks = new ConcurrentHashMap<>();
 
     @Autowired
-    public OpenWeatherService(RestTemplateBuilder restTemplateBuilder, OpenWeatherProperties properties, 
+    public OpenWeatherService(RestTemplate restTemplate, OpenWeatherProperties properties, 
                              WeatherDataStrategyFactory strategyFactory, WeatherCache weatherCache, ObjectMapper objectMapper) {
+        this.restTemplate = restTemplate;
         this.properties = properties;
         this.strategyFactory = strategyFactory;
         this.weatherCache = weatherCache;
         this.objectMapper = objectMapper;
-        this.restTemplate = restTemplateBuilder
-                .setConnectTimeout(Duration.ofMillis(properties.getConnectionTimeout()))
-                .setReadTimeout(Duration.ofMillis(properties.getReadTimeout()))
-                .build();
         
         log.info("OpenWeatherService initialization is complete, using cache type: {}", weatherCache.getType());
     }
 
     private String buildWeatherUrl(double lat, double lon) {
-        return UriComponentsBuilder.fromHttpUrl(BASE_URL)
+        String fullUrl = properties.getApiDomain() + WeatherConstants.Api.WEATHER_PATH;
+        return UriComponentsBuilder.fromHttpUrl(fullUrl)
                 .queryParam(PARAM_LAT, lat)
                 .queryParam(PARAM_LON, lon)
                 .queryParam(PARAM_API_KEY, properties.getApiKey())
@@ -73,7 +72,8 @@ public class OpenWeatherService {
         if (countryCode != null && !countryCode.isEmpty()) {
             query += "," + countryCode;
         }
-        return UriComponentsBuilder.fromHttpUrl(GEOCODING_URL)
+        String fullUrl = properties.getApiDomain() + WeatherConstants.Api.GEOCODING_PATH;
+        return UriComponentsBuilder.fromHttpUrl(fullUrl)
                 .queryParam(PARAM_CITY, query)
                 .queryParam(PARAM_API_KEY, properties.getApiKey())
                 .queryParam(PARAM_LIMIT, 1)
