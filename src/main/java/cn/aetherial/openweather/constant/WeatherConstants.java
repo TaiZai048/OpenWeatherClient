@@ -6,9 +6,10 @@ public final class WeatherConstants {
     }
     
     public static final class Api {
-        public static final String BASE_URL = "https://api.openweathermap.org/data/3.0/onecall";
-        public static final String GEOCODING_URL = "https://api.openweathermap.org/geo/1.0/direct";
-        
+        public static final String DEFAULT_DOMAIN = "https://api.openweathermap.org";
+        public static final String WEATHER_PATH = "/data/3.0/onecall";
+        public static final String GEOCODING_PATH = "/geo/1.0/direct";
+
         public static final String PARAM_LAT = "lat";
         public static final String PARAM_LON = "lon";
         public static final String PARAM_API_KEY = "appid";
