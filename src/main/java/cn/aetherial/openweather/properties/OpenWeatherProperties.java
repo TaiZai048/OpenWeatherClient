@@ -12,6 +12,7 @@ public class OpenWeatherProperties implements InitializingBean {
     private String apiKey;
     private String units = "metric";
     private String lang = "zh_cn";
+    private String exclude;
     private int connectionTimeout = 5000;
     private int readTimeout = 5000;
     private String apiDomain = WeatherConstants.Api.DEFAULT_DOMAIN;
@@ -59,9 +60,17 @@ public class OpenWeatherProperties implements InitializingBean {
     public String getApiDomain() {
         return apiDomain;
     }
-    
+
     public void setApiDomain(String apiDomain) {
         this.apiDomain = apiDomain;
+    }
+
+    public void setExclude(String exclude) {
+        this.exclude = exclude;
+    }
+
+    public String getExclude() {
+        return exclude;
     }
 
     @Override

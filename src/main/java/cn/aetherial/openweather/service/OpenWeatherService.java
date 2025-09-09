@@ -20,13 +20,10 @@ import org.springframework.web.client.RestClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.concurrent.ConcurrentHashMap;
-
-import java.time.Duration;
 
 import java.util.Map;
 
@@ -63,6 +60,7 @@ public class OpenWeatherService {
                 .queryParam(PARAM_API_KEY, properties.getApiKey())
                 .queryParam(PARAM_UNITS, properties.getUnits())
                 .queryParam(PARAM_LANG, properties.getLang())
+                .queryParam(PARAM_EXCLUDE, properties.getExclude())
                 .build()
                 .toUriString();
     }
