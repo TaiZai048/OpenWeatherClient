@@ -36,6 +36,7 @@ open-weather-config:
   api-key: "您的 OpenWeather API Key" # 必须设置，否则会报错
   units: metric # 温度统计单位 默认 metric
   lang: zh_cn # 语言 默认 zh_cn
+  exclude: minutely,alerts # 排除的天气数据组件（可选，默认不排除任何组件），多个组件用逗号分隔
   connection-timeout: 5000 # 连接超时（毫秒）
   read-timeout: 5000 # 读取超时（毫秒）
   api-domain: "https://api.openweathermap.org" # API域名前缀（可选，默认：https://api.openweathermap.org）

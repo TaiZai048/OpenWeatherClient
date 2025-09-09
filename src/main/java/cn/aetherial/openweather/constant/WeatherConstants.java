@@ -15,6 +15,7 @@ public final class WeatherConstants {
         public static final String PARAM_API_KEY = "appid";
         public static final String PARAM_UNITS = "units";
         public static final String PARAM_LANG = "lang";
+        public static final String PARAM_EXCLUDE = "exclude";
         public static final String PARAM_CITY = "q";
         public static final String PARAM_LIMIT = "limit";
     }
